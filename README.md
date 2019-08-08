@@ -49,7 +49,7 @@ module.exports.Post = Post;</pre>
 	<br>
 </p>
 
-<p><strong>post route file</strong></p><pre>const getResReq = require(&quot;mongodb-collection-query-with-mongose&quot;);
+<p><strong>post route file</strong></p><pre>const getResReq = require(&quot;mongodb-collection-query-with-mongoose&quot;);
 const { Post } = require(&quot;./post-model&quot;);
 const express = require(&quot;express&quot;); 
 const router = express.Router();
