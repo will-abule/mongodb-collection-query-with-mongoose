@@ -57,7 +57,7 @@ const router = express.Router();
 router.get(&quot;/post&quot;, [authGaurd], async (req, res) =&gt; { 
    const setect = &quot;\_id title userId description imageUrl&quot;
    const data = await Promise.all([ getResReq(req, res, Post, select) ]); 
-   if (data.type === "error") return res.status(500).send({ message : `internal server error`, error: data})
+   if (data.type === "error") return res.status(500).send({ message : "internal server error", error: data})
    res.send(data[0])
 });</pre>
 
