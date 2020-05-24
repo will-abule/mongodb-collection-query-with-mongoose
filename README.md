@@ -1,10 +1,11 @@
-<h1>Full Article click <a href="https://teamishare.com/article/NMH6HaNUqcqljIvbRZiy">here</a></h1>
+<h1>Full Article click <a href="https://ishare-app.web.app/article/NMH6HaNUqcqljIvbRZiy" rel="noopener noreferrer" target="_blank">here</a></h1>
 
-<p>This module is used to query a single &nbsp;mongodb collection written with mongoose dynamically with simple query parameters using mongodb query types &#39;AND&#39; and &#39;OR&#39; with &nbsp;MongoDB filter options eg &#39;$gt&#39; as &#39;gt&#39;, &#39;$gte&#39; as &#39;gte&#39;, &#39;$lt&#39; as &#39;lt&#39;, &#39;$lte&#39; as &#39;lte&#39;, &#39;$eq&#39; as &#39;eq&#39; and &#39;cn&#39; for case insensitive query for contains replacing MongoDB regex expression eg &#39;/.*Will Abule.*/i&#39;.&nbsp;</p>
+<p>This module is used to query a single MongoDB collection written with mongoose dynamically with simple query parameters using MongoDB query types &#39;AND&#39; and &#39;OR&#39; with &nbsp;MongoDB filter options eg &#39;$gt&#39; as &#39;gt&#39;, &#39;$gte&#39; as &#39;gte&#39;, &#39;$lt&#39; as &#39;lt&#39;, &#39;$lte&#39; as &#39;lte&#39;, &#39;$eq&#39; as &#39;eq&#39; and &#39;cn&#39; for case insensitive query for contains replacing MongoDB regex expression eg &#39;/.*Will Abule.*/i&#39; you can also write your own MongoDB queries as expressions.</p>
 
 <p>The client(s) consuming your API just has to follow simple roles or better a query structure and it dynamically query and return an object as the result containing five fields data, pageSize, records, pageNumber, and total.</p>
 
 <p>data representing the queried data, pageSize representing the bash of data returned, records representing the total records found based on the filter, pageNumber representing the current paginated page, and total representing the number of pages.</p>
+
 <h2>How To Use</h2>
 
 <p>
@@ -40,6 +41,9 @@ const postScheama = new mongoose.Schema({
   userId: {
     type: String
   },
+  tags: {
+    type: Array
+  },
 });
 const Post = mongoose.model(&quot;Post&quot;, postScheama);
 module.exports.postScheama = postScheama;
@@ -49,19 +53,33 @@ module.exports.Post = Post;</pre>
 	<br>
 </p>
 
-<p><strong>post route file</strong></p><pre>const getResReq = require(&quot;mongodb-collection-query-with-mongoose&quot;);
-const { Post } = require(&quot;./post-model&quot;);
-const express = require(&quot;express&quot;); 
-const router = express.Router();
+<p><strong>post route file</strong></p><pre>router.get(&quot;/post&quot;, async (req, res) =&gt; {
 
-router.get(&quot;/post&quot;, [authGaurd], async (req, res) =&gt; { 
-   const setect = &quot;\_id title userId description imageUrl&quot;
-   const data = await Promise.all([ getResReq(req, res, Post, select) ]); 
-   if (data.type === "error") return res.status(500).send({ message : "internal server error", error: data})
-   res.send(data[0])
-});</pre>
+try {
+     const setect = &quot;\_id title userId description imageUrl&quot;
+     const data = await Promise.all([ getResReq(req, res, Post, select) ]);
+     if (data.type === &quot;error&quot;)
+        return res.status(500).send({ message : `internal server error`, error: data })
+res.send(data[0]);
+  } catch {
+    return res.status(500).send({ message : `internal server error`, error: data })
+  }
+});
 
-<br>
+</pre>
+
+<p><strong><span style="color: rgb(209, 72, 65);">NOTE: As a backend developer you can write your own additional query eg from v1.0.5</span></strong></p><pre><span style="color: rgb(0, 0, 0);">const searchFilter = JSON.parse(req.query.searchFilters).rules;</span>
+<span style="color: rgb(0, 0, 0);">const result = <span style="color: rgb(0, 0, 0);">searchFilter.push({</span></span>
+   option: &quot;expression&quot;,
+   filed: &quot;tags&quot;
+   data: { $all: [&#39;red&#39;, &#39;blank&#39;] }
+<span style="color: rgb(0, 0, 0);"><span style="color: rgb(0, 0, 0);">})</span></span>
+
+<span style="color: rgb(0, 0, 0);"><span style="color: rgb(0, 0, 0);">// note any mongodb query will work just specify the query at the &quot;data&quot; and doc field at &quot;field &quot; and this can also be done from the client as well if you so which.</span></span></pre>
+
+<p>
+	<br>
+</p>
 
 <h3>From Client</h3>
 
@@ -69,7 +87,7 @@ router.get(&quot;/post&quot;, [authGaurd], async (req, res) =&gt; { 
 	<br>
 </p>
 
-<p><strong><span style="color: rgb(184, 49, 47);">don&#39;t install the package for reading only if your backend developer uses this library </span></strong></p>
+<p><strong><span style="color: rgb(184, 49, 47);">don&#39;t install the package for reading only if your backend developer uses this library&nbsp;</span></strong></p>
 
 <p>
 	<br>
@@ -107,6 +125,8 @@ router.get(&quot;/post&quot;, [authGaurd], async (req, res) =&gt; { 
 
 <p dir="ltr" style="margin-left: 240px;">lte (less than or equal)</p>
 
+<p dir="ltr" style="margin-left: 240px;">expression ( for writing your own MongoDB queries)</p>
+
 <p dir="ltr" style="margin-left: 240px;">
 	<br>
 </p>
@@ -135,11 +155,11 @@ router.get(&quot;/post&quot;, [authGaurd], async (req, res) =&gt; { 
 
 <p dir="ltr">eq (equal): can be used for the following string, date, boolean float, number</p>
 
- <p dir="ltr">gt (greater than): can be used for the following string, date, boolean float, number</p>
+<p dir="ltr">gt (greater than): can be used for the following string, date, boolean float, number</p>
 
- <p dir="ltr">gte (greater than or equal): can be used for the following string, date, boolean float, number</p>
+<p dir="ltr">gte (greater than or equal): can be used for the following string, date, boolean float, number</p>
 
- <p dir="ltr">lt (less than): can be used for the following string, date, boolean float, number</p>
+<p dir="ltr">lt (less than): can be used for the following string, date, boolean float, number</p>
 
 <p dir="ltr">lte (less than or equal): can be used for the following string, date, boolean float, number</p>
 
@@ -196,7 +216,7 @@ router.get(&quot;/post&quot;, [authGaurd], async (req, res) =&gt; { 
 	<br>
 </p>
 
-<p dir="ltr"><span style="background-color: initial;">if you want the result to brought by 10 batches starting from page 1</span><span style="background-color: initial;">&nbsp;I will do something like this</span></p><pre dir="ltr"><span style="background-color: initial;">const query = {
+<p dir="ltr"><span style="background-color: initial;">if you want the result to brought by 10 batches starting from page 1&nbsp;I will do something like this</span></p><pre dir="ltr"><span style="background-color: initial;">const query = {
     pageNumber : 1,</span>
 <span style="background-color: initial;">    pageSize : 10
 }</span></pre>
@@ -250,7 +270,7 @@ router.get(&quot;/post&quot;, [authGaurd], async (req, res) =&gt; { 
 
 <p><strong>data (array):&nbsp;</strong>The data found in the collections eg post collection</p>
 
-<p><strong>pageSize (number):&nbsp;</strong>The batch the was returned data found in the collections eg post collection</p>
+<p><strong>pageSize (number):&nbsp;</strong>The batch was returned data found in the collections eg post collection</p>
 
 <p><strong>records (number):&nbsp;</strong>The total records found in the collections eg post collection</p>
 

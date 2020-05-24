@@ -3,8 +3,10 @@ const metaphone = require("metaphone");
 function query(query) {
   // structing for NOSQL query //
 
-  const result = query.map(rules => {
-    if (rules.option === "eq") {
+  const result = query.map((rules) => {
+    if (rules.option === "expression") {
+      return { [rules.field]: rules.data };
+    } else if (rules.option === "eq") {
       if (rules.type !== undefined) {
         if (rules.type === "string") {
           return { [rules.field]: { $eq: `${rules.data}` } };
