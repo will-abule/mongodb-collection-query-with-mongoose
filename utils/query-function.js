@@ -4,6 +4,32 @@ function getOption(data) {
   return `$${data.option}`;
 }
 
+function getTypesStructuredValue(rules, res) {
+  if (rules.field && rules.field === "sound") {
+    const data = `/.*${metaphone(rules.data)}.*/i`;
+    return eval(data);
+  } else if (rules.option === "cn") {
+    const data = `/.*${rules.data}.*/i`;
+    return eval(data);
+  } else if (rules.type !== undefined) {
+    if (rules.type === "string") {
+      return `${rules.data}`;
+    } else if (rules.type === "number") {
+      return parseInt(rules.data);
+    } else if (rules.type === "float") {
+      return parseFloat(rules.data);
+    } else if (rules.type === "date") {
+      return new Date(rules.data);
+    }
+  } else {
+    return res
+      .status(400)
+      .send(
+        "You've constructed your query wrongly kindly consult the documentation"
+      );
+  }
+}
+
 function getTypes(rules, res) {
   if (rules.field && rules.field === "sound") {
     const data = `/.*${metaphone(rules.data)}.*/i`;
@@ -28,8 +54,8 @@ function getTypes(rules, res) {
       };
     } else if (rules.type === "range") {
       if (
-        !isArray(rules.data) ||
-        (isArray(rules.data) && rules.data.length !== 2)
+        !Array.isArray(rules.data) ||
+        (Array.isArray(rules.data) && rules.data.length !== 2)
       ) {
         return res
           .status(400)
@@ -40,8 +66,8 @@ function getTypes(rules, res) {
 
       return {
         [rules.field]: {
-          [getOption(range1)]: getTypes(range1),
-          [getOption(range2)]: getTypes(range2),
+          [getOption(range1)]: getTypesStructuredValue(range1, res),
+          [getOption(range2)]: getTypesStructuredValue(range2, res),
         },
       };
     }
