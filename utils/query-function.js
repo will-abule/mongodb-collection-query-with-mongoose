@@ -6,7 +6,10 @@ function getOption(data) {
 
 function getTypes(rules, res) {
   if (rules.field && rules.field === "sound") {
-    const data = "/.*" + metaphone(rules.data) + ".*/i";
+    const data = `/.*${metaphone(rules.data)}*/i`;
+    return { [rules.field]: eval(data) };
+  } else if (rules.option === "cn") {
+    const data = `/.*${rules.data}*/i`;
     return { [rules.field]: eval(data) };
   } else if (rules.type !== undefined) {
     if (rules.type === "string") {
@@ -24,7 +27,10 @@ function getTypes(rules, res) {
         [rules.field]: { [getOption(rules)]: new Date(rules.data) },
       };
     } else if (rules.type === "range") {
-      if (isArray(rules.data) && rules.data.length !== 2) {
+      if (
+        !isArray(rules.data) ||
+        (isArray(rules.data) && rules.data.length !== 2)
+      ) {
         return res
           .status(400)
           .send("range should be an array with a min and max lenght of 2");
@@ -40,7 +46,11 @@ function getTypes(rules, res) {
       };
     }
   } else {
-    return { [rules.field]: { [getOption(rules)]: rules.data } };
+    return res
+      .status(400)
+      .send(
+        "You've constructed your query wrongly kindly consult the documentation"
+      );
   }
 }
 
