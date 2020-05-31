@@ -6,10 +6,10 @@ function getOption(data) {
 
 function getTypes(rules, res) {
   if (rules.field && rules.field === "sound") {
-    const data = `/.*${metaphone(rules.data)}*/i`;
+    const data = `/.*${metaphone(rules.data)}.*/i`;
     return { [rules.field]: eval(data) };
   } else if (rules.option === "cn") {
-    const data = `/.*${rules.data}*/i`;
+    const data = `/.*${rules.data}.*/i`;
     return { [rules.field]: eval(data) };
   } else if (rules.type !== undefined) {
     if (rules.type === "string") {
