@@ -29,19 +29,21 @@ function searchFilter(req, res) {
           "searchOption.rules must be an array of objects with each object having a field, type, option and data should either AND or OR in upercase"
         );
     }
-    searchFilter.rules.map(data => {
+    searchFilter.rules.map((data) => {
       if (
         data.type !== undefined &&
         data.type !== "string" &&
         data.type !== "number" &&
         data.type !== "float" &&
         data.type !== "date" &&
-        data.type !== "boolean"
+        data.type !== "boolean" &&
+        data.type !== "expression" &&
+        data.type !== "range"
       ) {
         res
           .status(400)
           .send(
-            "rules type must be set to 'string', 'number', 'float', 'date' or 'boolean'"
+            "rules type must be set to 'string', 'number', 'float', 'date' or 'boolean' or 'expression' or 'range'"
           );
       }
     });
