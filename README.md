@@ -180,25 +180,24 @@ res.send(data[0]);
         type:&quot;string&quot;,
         data:&quot;will&quot;
     },{
+        field:&quot;date&quot;,
         type:&quot;range&quot;,
         data: [
             {
-               field:&quot;date&quot;,
                option:&quot;gt&quot;,
-               type:&quot;string&quot;,
+               type:&quot;data&quot;,
                data: new Date(new Date().setDate(new Date().getDate() - 7))
             },
             {
-               field:&quot;date&quot;,
                option:&quot;lte&quot;,
-               type:&quot;string&quot;,
+               type:&quot;date&quot;,
                data: new Date()
             },
         ]
     }]
 }</pre>
 
-<p><span style="color: rgb(184, 49, 47);"><strong>NOTE: The range type is an array with a max and min length of 2 and field, option and type can be omitted.&nbsp;&nbsp;</strong></span></p>
+<p><span style="color: rgb(184, 49, 47);"><strong>NOTE: The range type is an array with a max and min length of 2 and option and type can be omitted. &nbsp;</strong></span></p>
 
 <p dir="ltr">
 	<br>
