@@ -26,7 +26,7 @@ async function getResReq(req, res, DBModel, select) {
 
           const query = searchFilter.rules;
 
-          const result = Query(query);
+          const result = Query(query, res);
 
           filter(req, res);
 
@@ -44,9 +44,7 @@ async function getResReq(req, res, DBModel, select) {
             .limit(req.query.pageSize * 1)
             .select(select);
 
-          let records = await DBModel.find()
-            .or(result)
-            .countDocuments();
+          let records = await DBModel.find().or(result).countDocuments();
 
           const data = pagination(
             dbData,
@@ -63,7 +61,7 @@ async function getResReq(req, res, DBModel, select) {
 
           const query = searchFilter.rules;
 
-          const result = Query(query);
+          const result = Query(query, res);
 
           filter(req, res);
 
@@ -81,9 +79,7 @@ async function getResReq(req, res, DBModel, select) {
             .limit(req.query.pageSize * 1)
             .select(select);
 
-          let records = await DBModel.find()
-            .and(result)
-            .countDocuments();
+          let records = await DBModel.find().and(result).countDocuments();
 
           // if (relatedDBModel.length > 0)
           //   dbData = queryRelatedDBdata(relatedDBModel, dbData);
@@ -136,7 +132,7 @@ async function getResReq(req, res, DBModel, select) {
   } catch (error) {
     let data = {
       type: "error",
-      data: error
+      data: error,
     };
     return data;
   }

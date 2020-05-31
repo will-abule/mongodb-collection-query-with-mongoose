@@ -44,6 +44,11 @@ const postScheama = new mongoose.Schema({
   tags: {
     type: Array
   },
+  date: {
+    type: Date,
+    required: true,
+    default: Date.now
+  }
 });
 const Post = mongoose.model(&quot;Post&quot;, postScheama);
 module.exports.postScheama = postScheama;
@@ -125,6 +130,8 @@ res.send(data[0]);
 
 <p dir="ltr" style="margin-left: 240px;">lte (less than or equal)</p>
 
+<p dir="ltr" style="margin-left: 240px;">range ( for querying data in range)</p>
+
 <p dir="ltr" style="margin-left: 240px;">expression ( for writing your own MongoDB queries)</p>
 
 <p dir="ltr" style="margin-left: 240px;">
@@ -162,6 +169,40 @@ res.send(data[0]);
 <p dir="ltr">lt (less than): can be used for the following string, date, boolean float, number</p>
 
 <p dir="ltr">lte (less than or equal): can be used for the following string, date, boolean float, number</p>
+
+<p dir="ltr">range : this example will explain better&nbsp;</p>
+
+<p dir="ltr">if i want to filter the list of post where name is will and the date is greater than the date seven days ago but less than or equal to today date. This can be written as follows</p><pre dir="ltr">const searchFilters = {
+    searchOption:&quot;OR&quot;,
+    rules:[{
+        field:&quot;name&quot;,
+        option:&quot;cn&quot;,
+        type:&quot;string&quot;,
+        data:&quot;will&quot;
+    },{
+        type:&quot;range&quot;,
+        data: [
+            {
+               field:&quot;date&quot;,
+               option:&quot;gt&quot;,
+               type:&quot;string&quot;,
+               data: new Date(new Date().setDate(new Date().getDate() - 7))
+            },
+            {
+               field:&quot;date&quot;,
+               option:&quot;lte&quot;,
+               type:&quot;string&quot;,
+               data: new Date()
+            },
+        ]
+    }]
+}</pre>
+
+<p><span style="color: rgb(184, 49, 47);"><strong>NOTE: The range type is an array with a max and min length of 2 and field, option and type can be omitted.&nbsp;&nbsp;</strong></span></p>
+
+<p dir="ltr">
+	<br>
+</p>
 
 <p dir="ltr">
 	<br>
