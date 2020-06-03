@@ -3,7 +3,7 @@ const checkSort = require("./utils/check-sort-function");
 const sortType = require("./utils/sort-type-function");
 const pagination = require("./utils/pagination-function");
 const filter = require("./utils/filters-validation-function");
-const search = require("./utils/search-filters-function");
+const validateSearch = require("./utils/search-filters-validation-function");
 
 async function getResReq(req, res, DBModel, select) {
   // checking for filters
@@ -18,7 +18,7 @@ async function getResReq(req, res, DBModel, select) {
       if (req.query.filter === "true") {
         // checking for proper construction of searchFilters
 
-        search(req, res);
+        validateSearch(req, res);
         const searchFilter = JSON.parse(req.query.searchFilters);
 
         if (searchFilter.searchOption === "OR") {

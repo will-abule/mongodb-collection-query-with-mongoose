@@ -122,6 +122,8 @@ res.send(data[0]);
 
 <p dir="ltr" style="margin-left: 240px;">eq (equal)</p>
 
+<p dir="ltr" style="margin-left: 240px;">ne (not equal)</p>
+
 <p dir="ltr" style="margin-left: 240px;">gt (greater than)</p>
 
 <p dir="ltr" style="margin-left: 240px;">gte (greater than or equal)</p>
@@ -129,6 +131,10 @@ res.send(data[0]);
 <p dir="ltr" style="margin-left: 240px;">lt (less than)</p>
 
 <p dir="ltr" style="margin-left: 240px;">lte (less than or equal)</p>
+
+<p dir="ltr" style="margin-left: 240px;">in (in an array)</p>
+
+<p dir="ltr" style="margin-left: 240px;">nin (not in an array)</p>
 
 <p dir="ltr" style="margin-left: 240px;">range ( for querying data in range)</p>
 
@@ -158,21 +164,29 @@ res.send(data[0]);
 
 <p dir="ltr"><strong>query filter rules</strong></p>
 
-<p dir="ltr">cn (contains): can only be used for string values</p>
+<p dir="ltr">cn: (contains): can only be used for string values.</p>
 
-<p dir="ltr">eq (equal): can be used for the following string, date, boolean float, number</p>
+<p dir="ltr">eq: (equal: operator matches documents where the value of a field equals the specified value.)</p>
 
-<p dir="ltr">gt (greater than): can be used for the following string, date, boolean float, number</p>
+<p dir="ltr">ne: (not equal: selects those documents where the value of the <code>field</code> is greater than (i.e. <code>&gt;</code>) the specified <code>value</code>.)</p>
 
-<p dir="ltr">gte (greater than or equal): can be used for the following string, date, boolean float, number</p>
+<p dir="ltr">gt: (greater than: selects the documents where the value of the <code>field</code> is greater than or equal to (i.e. <code>&gt;=</code>) a specified value (e.g. <code>value</code>.))</p>
 
-<p dir="ltr">lt (less than): can be used for the following string, date, boolean float, number</p>
+<p dir="ltr">gte: (greater than or equal: selects the documents where the value of the <code>field</code> is greater than or equal to (i.e. <code>&gt;=</code>) a specified value (e.g. <code>value</code>.))</p>
 
-<p dir="ltr">lte (less than or equal): can be used for the following string, date, boolean float, number</p>
+<p dir="ltr">lt: (less than: selects the documents where the value of the <code>field</code> is less than (i.e. <code>&lt;</code>) the specified <code>value</code>.)</p>
 
-<p dir="ltr">range : this example will explain better&nbsp;</p>
+<p dir="ltr">lte: (less than or equal: selects the documents where the value of the <code>field</code> is less than or equal to (i.e. <code>&lt;=</code>) the specified <code>value</code>.)</p>
 
-<p dir="ltr">if i want to filter the list of post where name is will and the date is greater than the date seven days ago but less than or equal to today date. This can be written as follows</p><pre dir="ltr">const searchFilters = {
+<p dir="ltr">in: (operator selects the documents where the value of a field equals any value in the specified array.l)</p>
+
+<p dir="ltr">nin: (less than or equal: operator selects the documents whose <code>field</code> holds an array with <strong>no</strong> element equal to a value in the specified array (e.g. <code>&lt;value1&gt;</code>, <code>&lt;value2&gt;</code>, etc.).)</p>
+
+<p dir="ltr">expression: ( for writing your own MongoDB queries)</p>
+
+<p dir="ltr">range: this example will explain better&nbsp;</p>
+
+<p dir="ltr">if I want to filter the list of posts where name is &#39;will&#39; and the date is greater than the date seven days ago but less than or equal to today date. This can be written as follows</p><pre dir="ltr">const searchFilters = {
     searchOption:&quot;OR&quot;,
     rules:[{
         field:&quot;name&quot;,
@@ -321,3 +335,43 @@ res.send(data[0]);
 <p>
 	<br>
 </p>
+
+<p>A useful example to help you combine query</p><pre dir="ltr">const searchFilters = {
+    searchOption:&quot;AND&quot;,
+    rules:[{
+        field:&quot;title&quot;,
+        option:&quot;cn&quot;,
+        type:&quot;string&quot;,
+        data:&quot;will&quot;
+    },{
+        field:&quot;description&quot;,
+        option:&quot;ne&quot;,
+        type:&quot;string&quot;,
+        data:&quot;test&quot;
+    },{
+        field:&quot;userId&quot;,
+        option:&quot;eq&quot;,
+        type:&quot;string&quot;,
+        data:&quot;will&quot;
+    },{
+        field:&quot;tags&quot;,
+        option:&quot;in&quot;, // or nin
+        type:&quot;string&quot;,
+        data:[&quot;is&quot;, 3, 12.2, true, new Date()]
+    },{
+        field:&quot;date&quot;,
+        type:&quot;range&quot;,
+        data: [
+            {
+               option:&quot;gte&quot;, // or gt
+               type:&quot;data&quot;,
+               data: new Date(new Date().setDate(new Date().getDate() - 7))
+            },
+            {
+               option:&quot;lte&quot;,// or lt
+               type:&quot;date&quot;,
+               data: new Date()
+            },
+        ]
+    }]
+}</pre>

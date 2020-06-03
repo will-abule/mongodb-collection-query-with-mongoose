@@ -5,13 +5,7 @@ function getOption(data) {
 }
 
 function getTypesStructuredValue(rules, res) {
-  if (rules.field && rules.field === "sound") {
-    const data = `/.*${metaphone(rules.data)}.*/i`;
-    return eval(data);
-  } else if (rules.option === "cn") {
-    const data = `/.*${rules.data}.*/i`;
-    return eval(data);
-  } else if (rules.type !== undefined) {
+  if (rules.type !== undefined) {
     if (rules.type === "string") {
       return `${rules.data}`;
     } else if (rules.type === "number") {
@@ -22,6 +16,12 @@ function getTypesStructuredValue(rules, res) {
       return eval(rules.data) ? true : false;
     } else if (rules.type === "date") {
       return new Date(rules.data);
+    } else {
+      return res
+        .status(400)
+        .send(
+          "range can only accept the following types string, number, float, boolean and date"
+        );
     }
   } else {
     return res
@@ -39,6 +39,10 @@ function getTypes(rules, res) {
   } else if (rules.option === "cn") {
     const data = `/.*${rules.data}.*/i`;
     return { [rules.field]: eval(data) };
+  } else if (rules.option === "in" || rules.option === "nin") {
+    return {
+      [rules.field]: { [getOption(rules)]: rules.data },
+    };
   } else if (rules.type !== undefined) {
     if (rules.type === "string") {
       return { [rules.field]: { [getOption(rules)]: `${rules.data}` } };
@@ -59,14 +63,6 @@ function getTypes(rules, res) {
         [rules.field]: { [getOption(rules)]: new Date(rules.data) },
       };
     } else if (rules.type === "range") {
-      if (
-        !Array.isArray(rules.data) ||
-        (Array.isArray(rules.data) && rules.data.length !== 2)
-      ) {
-        return res
-          .status(400)
-          .send("range should be an array with a min and max lenght of 2");
-      }
       const range1 = rules.data[0];
       const range2 = rules.data[1];
 
