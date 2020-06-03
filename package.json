@@ -1,6 +1,6 @@
 {
   "name": "mongodb-collection-query-with-mongoose",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "This is use to query a single mongodb collection written with mongoose dynamically with simple query parameters using mongodb query types 'AND' and 'OR' with  mongodb filter options eg '$gt' as 'gt', '$gte' as 'gte', '$lt' as 'lt', '$lte' as 'lte', '$eq' as 'eq' and 'cn' for case insentitive query for contains replacing mongodb regax expression eg '/.*Will Abule.*/i'. The client(s) consuming your API just has to follow simple roles or better a query structure and it dynamically query and return and objest as the result containing five fields data, pageSize, records, pageNumber, and total, data representing the queried data, pageSize representing the bash of data returned, records representing the total records found based on the filter, pageNumber representing the current paginated page, and total representing the number of pages.",
   "main": "index.js",
   "scripts": {

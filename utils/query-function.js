@@ -18,6 +18,8 @@ function getTypesStructuredValue(rules, res) {
       return parseInt(rules.data);
     } else if (rules.type === "float") {
       return parseFloat(rules.data);
+    } else if (rules.type === "boolean") {
+      return eval(rules.data) ? true : false;
     } else if (rules.type === "date") {
       return new Date(rules.data);
     }
@@ -48,6 +50,10 @@ function getTypes(rules, res) {
       return {
         [rules.field]: { [getOption(rules)]: parseFloat(rules.data) },
       };
+    } else if (rules.type === "boolean") {
+      return {
+        [rules.field]: { [getOption(rules)]: eval(rules.data) ? true : false },
+      };
     } else if (rules.type === "date") {
       return {
         [rules.field]: { [getOption(rules)]: new Date(rules.data) },
@@ -70,6 +76,8 @@ function getTypes(rules, res) {
           [getOption(range2)]: getTypesStructuredValue(range2, res),
         },
       };
+    } else {
+      return { [rules.field]: { [getOption(rules)]: rules.data } };
     }
   } else {
     return res
@@ -90,6 +98,8 @@ function query(query, res) {
       return getTypes(rules, res);
     }
   });
+
+  console.log("result", result);
 
   return result;
 }
