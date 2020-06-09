@@ -45,13 +45,14 @@ function searchFilter(req, res) {
         !data.type ||
         data.type === undefined ||
         !(
-          (data.type && data.type === "string") ||
-          data.type === "number" ||
-          data.type === "float" ||
-          data.type === "date" ||
-          data.type === "boolean" ||
-          data.type === "expression" ||
-          data.type === "range"
+          data.type &&
+          (data.type === "string" ||
+            data.type === "number" ||
+            data.type === "float" ||
+            data.type === "date" ||
+            data.type === "boolean" ||
+            data.type === "expression" ||
+            data.type === "range")
         )
       ) {
         return res
