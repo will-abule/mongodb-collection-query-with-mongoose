@@ -87,42 +87,32 @@ function searchFilter(req, res) {
       if (data.type === "string" && typeof data.data !== "string") {
         return res
           .status(400)
-          .send(
-            "rules type must is set to 'string' rules but data is not a string"
-          );
+          .send("rules type is set to 'string' rules but data is not a string");
       } else if (data.type === "number" && typeof data.data !== "number") {
         return res
           .status(400)
-          .send(
-            "rules type must is set to 'number' rules but data is not a number"
-          );
+          .send("rules type is set to 'number' rules but data is not a number");
       } else if (
         data.type === "float" &&
         data.data.toString().indexOf(".") != -1
       ) {
         return res
           .status(400)
-          .send(
-            "rules type must is set to 'float' rules but data is not a floaf"
-          );
+          .send("rules type is set to 'float' rules but data is not a floaf");
       } else if (data.type === "date" && !Date.parse(`${data.data}`)) {
         return res
           .status(400)
-          .send(
-            "rules type must is set to 'date' rules but data is not a date"
-          );
+          .send("rules type is set to 'date' rules but data is not a date");
       } else if (data.type === "date" && typeof data.data !== "boolean") {
         return res
           .status(400)
           .send(
-            "rules type must is set to 'boolean' rules but data is not a boolean"
+            "rules type is set to 'boolean' rules but data is not a boolean"
           );
       } else if (data.type === "range" && !Array.isArray(data.data)) {
         return res
           .status(400)
-          .send(
-            "rules type must is set to 'range' rules but data is not a array"
-          );
+          .send("rules type is set to 'range' rules but data is not a array");
       } else if (
         data.type === "range" &&
         Array.isArray(data.data) &&
@@ -131,7 +121,7 @@ function searchFilter(req, res) {
         return res
           .status(400)
           .send(
-            "rules type must is set to 'range' and rules data is an array but is not of length 2"
+            "rules type is set to 'range' and rules data is an array but is not of length 2"
           );
       } else if (data.type === "range") {
         const range1 = data.data[0];
