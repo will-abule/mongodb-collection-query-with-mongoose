@@ -103,7 +103,7 @@ function searchFilter(req, res) {
         return res
           .status(400)
           .send("rules type is set to 'date' rules but data is not a date");
-      } else if (data.type === "date" && typeof data.data !== "boolean") {
+      } else if (data.type === "boolean" && typeof data.data !== "boolean") {
         return res
           .status(400)
           .send(
