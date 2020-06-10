@@ -63,19 +63,20 @@ function searchFilter(req, res) {
       }
 
       if (
-        !(!data.option && data.type !== "range") ||
-        !(data.option === undefined && data.type !== "range") ||
-        !(
-          data.option === "cn" ||
-          data.option === "ne" ||
-          data.option === "eq" ||
-          data.option === "gt" ||
-          data.option === "gte" ||
-          data.option === "lt" ||
-          data.option === "lte" ||
-          data.option === "nin" ||
-          data.option === "in"
-        )
+        (!data.option && data.type !== "range") ||
+        (data.option === undefined && data.type !== "range") ||
+        (data.option &&
+          !(
+            data.option === "cn" ||
+            data.option === "ne" ||
+            data.option === "eq" ||
+            data.option === "gt" ||
+            data.option === "gte" ||
+            data.option === "lt" ||
+            data.option === "lte" ||
+            data.option === "nin" ||
+            data.option === "in"
+          ))
       ) {
         return res
           .status(400)
