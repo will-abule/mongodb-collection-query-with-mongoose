@@ -63,8 +63,8 @@ function searchFilter(req, res) {
       }
 
       if (
-        (!data.option && data.type !== "range") ||
-        (data.option === undefined && data.type !== "range") ||
+        !(!data.option && data.type !== "range") ||
+        !(data.option === undefined && data.type !== "range") ||
         !(
           data.option === "cn" ||
           data.option === "ne" ||
