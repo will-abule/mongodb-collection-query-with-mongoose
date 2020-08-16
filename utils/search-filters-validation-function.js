@@ -52,7 +52,6 @@ function searchFilter(req, res) {
             data.type === "date" ||
             data.type === "boolean" ||
             data.type === "expression" ||
-            data.type === "arraySingle" ||
             data.type === "plainArray" ||
             data.type === "objectArray" ||
             data.type === "range")
@@ -113,14 +112,40 @@ function searchFilter(req, res) {
           .send(
             "rules type is set to 'boolean' rules but data is not a boolean"
           );
-      } else if (data.type === "plainArray" && !Array.isArray(data.data)) {
+      } else if (
+        data.type === "plainArray" &&
+        !(Array.isArray(data.data) || typeof data.data === "string")
+      ) {
         return res
           .status(400)
-          .send("rules type is set to 'array' rules but data is not an array");
-      } else if (data.type === "arraySingle" && typeof data.data !== "string") {
+          .send(
+            "rules type is set to 'plainArray' rules but data is not an array or a string"
+          );
+      } else if (data.type === "objectArray" && typeof data.data !== "object") {
         return res
           .status(400)
-          .send("rules type is set to 'array' rules but data is not an array");
+          .send(
+            "rules type is set to 'objectArray' rules but data is not an objectArray"
+          );
+      } else if (data.type === "objectArray" && typeof data.data === "object") {
+        for (const option of data.data) {
+          if (
+            !(
+              option === "ne" ||
+              option === "eq" ||
+              option === "gt" ||
+              option === "gte" ||
+              option === "lt" ||
+              option === "lte"
+            )
+          ) {
+            return res
+              .status(400)
+              .send(
+                "if rules type is set to 'objectArray' each field in the object should be 'ne', 'eq', 'gt', 'gte', 'lt', and 'lte'"
+              );
+          }
+        }
       } else if (data.type === "range" && !Array.isArray(data.data)) {
         return res
           .status(400)

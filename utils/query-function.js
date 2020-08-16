@@ -4,6 +4,33 @@ function getOption(data) {
   return `$${data.option}`;
 }
 
+function getObject(obj) {
+  let data = {};
+
+  for (const option of obj) {
+    if (option === "ne") {
+      data.$ne = obj[option];
+    }
+    if (option === "eq") {
+      data.$eq = obj[option];
+    }
+    if (option === "gt") {
+      data.$gt = obj[option];
+    }
+    if (option === "gte") {
+      data.$gte = obj[option];
+    }
+    if (option === "lt") {
+      data.$lt = obj[option];
+    }
+    if (option === "lte") {
+      data.$lte = obj[option];
+    }
+  }
+
+  return data;
+}
+
 function getTypesStructuredValue(rules, res) {
   if (rules.type !== undefined) {
     if (rules.type === "string") {
@@ -58,9 +85,19 @@ function getTypes(rules, res) {
       return {
         [rules.field]: { [getOption(rules)]: eval(rules.data) ? true : false },
       };
-    } else if (rules.type === "arraySingle") {
+    } else if (rules.type === "plainArray") {
+      if (rules.option === "all") {
+        return {
+          [rules.field]: { $all: rules.data },
+        };
+      } else {
+        return {
+          [rules.field]: rules.data,
+        };
+      }
+    } else if (rules.type === "objectArray") {
       return {
-        [rules.field]: rules.data,
+        [rules.field]: getObject(rules.data),
       };
     } else if (rules.type === "date") {
       return {
