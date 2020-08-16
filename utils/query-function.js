@@ -58,9 +58,9 @@ function getTypes(rules, res) {
       return {
         [rules.field]: { [getOption(rules)]: eval(rules.data) ? true : false },
       };
-    } else if (rules.type === "array") {
+    } else if (rules.type === "arraySingle") {
       return {
-        [rules.field]: { [getOption(rules)]: rules.data },
+        [rules.field]: rules.data,
       };
     } else if (rules.type === "date") {
       return {
