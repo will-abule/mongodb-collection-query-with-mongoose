@@ -58,6 +58,10 @@ function getTypes(rules, res) {
       return {
         [rules.field]: { [getOption(rules)]: eval(rules.data) ? true : false },
       };
+    } else if (rules.type === "array") {
+      return {
+        [rules.field]: { [getOption(rules)]: rules.data },
+      };
     } else if (rules.type === "date") {
       return {
         [rules.field]: { [getOption(rules)]: new Date(rules.data) },
@@ -95,7 +99,7 @@ function query(query, res) {
     }
   });
 
-  console.log("result", result);
+  // console.log("result", result);
 
   return result;
 }

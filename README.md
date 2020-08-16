@@ -356,7 +356,7 @@ res.send(data[0]);
     },{
         field:&quot;tags&quot;,
         option:&quot;in&quot;, // or nin
-        type:&quot;string&quot;,
+        type:&quot;array&quot;,
         data:[&quot;is&quot;, 3, 12.2, true, new Date()]
     },{
         field:&quot;date&quot;,
