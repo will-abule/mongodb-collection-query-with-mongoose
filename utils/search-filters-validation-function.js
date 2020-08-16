@@ -65,10 +65,10 @@ function searchFilter(req, res) {
       }
 
       if (
-        (!data.option && data.type !== "range") ||
-        (data.option === undefined && data.type !== "range") ||
-        (!data.option && data.type !== "objectArray") ||
-        (data.option === undefined && data.type !== "objectArray") ||
+        (!data.option &&
+          !(data.type === "range" || data.type === "objectArray")) ||
+        (data.option === undefined &&
+          !(data.type !== "range" || data.type !== "objectArray")) ||
         (data.option &&
           !(
             data.option === "cn" ||
@@ -79,13 +79,14 @@ function searchFilter(req, res) {
             data.option === "lt" ||
             data.option === "lte" ||
             data.option === "nin" ||
-            data.option === "in"
+            data.option === "in" ||
+            data.option === "all"
           ))
       ) {
         return res
           .status(400)
           .send(
-            "rules option must be set to 'cn', 'ne', 'eq', 'gt', 'gte', 'lt', 'lte', 'nin', and 'in'"
+            "rules option must be set to 'cn', 'ne', 'eq', 'gt', 'gte', 'lt', 'lte', 'nin', 'in' and for plainArray 'all'"
           );
       }
 
