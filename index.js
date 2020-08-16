@@ -130,6 +130,7 @@ async function getResReq(req, res, DBModel, select) {
       }
     }
   } catch (error) {
+    // console.log(error);
     let data = {
       type: "error",
       data: error,

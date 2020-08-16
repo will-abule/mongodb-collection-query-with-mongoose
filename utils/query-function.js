@@ -7,7 +7,7 @@ function getOption(data) {
 function getObject(obj) {
   let data = {};
 
-  for (const option of obj) {
+  for (const option in obj) {
     if (option === "ne") {
       data.$ne = obj[option];
     }
@@ -136,7 +136,7 @@ function query(query, res) {
     }
   });
 
-  console.log("result", result);
+  // console.log("result", result);
 
   return result;
 }

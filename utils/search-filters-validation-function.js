@@ -131,7 +131,8 @@ function searchFilter(req, res) {
             "rules type is set to 'objectArray' rules but data is not an objectArray"
           );
       } else if (data.type === "objectArray" && typeof data.data === "object") {
-        for (const option of data.data) {
+        console.log("data.data", data.data);
+        for (const option in data.data) {
           if (
             !(
               option === "ne" ||
