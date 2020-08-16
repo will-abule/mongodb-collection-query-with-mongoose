@@ -52,14 +52,16 @@ function searchFilter(req, res) {
             data.type === "date" ||
             data.type === "boolean" ||
             data.type === "expression" ||
-            data.type === "array" ||
+            data.type === "arraySingle" ||
+            data.type === "plainArray" ||
+            data.type === "objectArray" ||
             data.type === "range")
         )
       ) {
         return res
           .status(400)
           .send(
-            "rules type must be set to 'string', 'number', 'float', 'date' or 'boolean' or 'expression' or 'range' or 'array'"
+            "rules type must be set to 'string', 'number', 'float', 'date' or 'boolean' or 'expression' or 'range' or 'plainArray' or 'objectArray' or 'arraySingle'"
           );
       }
 
@@ -111,7 +113,11 @@ function searchFilter(req, res) {
           .send(
             "rules type is set to 'boolean' rules but data is not a boolean"
           );
-      } else if (data.type === "array" && !Array.isArray(data.data)) {
+      } else if (data.type === "plainArray" && !Array.isArray(data.data)) {
+        return res
+          .status(400)
+          .send("rules type is set to 'array' rules but data is not an array");
+      } else if (data.type === "arraySingle" && typeof data.data !== "string") {
         return res
           .status(400)
           .send("rules type is set to 'array' rules but data is not an array");
