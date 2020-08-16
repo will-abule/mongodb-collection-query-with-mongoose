@@ -67,6 +67,8 @@ function searchFilter(req, res) {
       if (
         (!data.option && data.type !== "range") ||
         (data.option === undefined && data.type !== "range") ||
+        (!data.option && data.type !== "objectArray") ||
+        (data.option === undefined && data.type !== "objectArray") ||
         (data.option &&
           !(
             data.option === "cn" ||
