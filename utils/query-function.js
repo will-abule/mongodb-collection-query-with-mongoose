@@ -42,7 +42,7 @@ function getTypesStructuredValue(rules, res) {
     } else if (rules.type === "boolean") {
       return eval(rules.data) ? true : false;
     } else if (rules.type === "date") {
-      return new Date(rules.data);
+      return Date(rules.data);
     } else {
       return res
         .status(400)
@@ -101,7 +101,7 @@ function getTypes(rules, res) {
       };
     } else if (rules.type === "date") {
       return {
-        [rules.field]: { [getOption(rules)]: new Date(rules.data) },
+        [rules.field]: { [getOption(rules)]: Date(rules.data) },
       };
     } else if (rules.type === "range") {
       const range1 = rules.data[0];

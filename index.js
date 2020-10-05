@@ -33,7 +33,7 @@ async function getResReq(req, res, DBModel, select) {
           const CheckSort = checkSort(req.query.sort);
 
           if (CheckSort === "none")
-            res.status(400).send(`sort must be asc or desc`);
+            return res.status(400).send(`sort must be asc or desc`);
 
           const sort = sortType(CheckSort);
 
@@ -105,7 +105,7 @@ async function getResReq(req, res, DBModel, select) {
         const CheckSort = checkSort(req.query.sort);
 
         if (CheckSort === "none")
-          res.status(400).send(`sort must be asc or desc`);
+          return res.status(400).send(`sort must be asc or desc`);
 
         const sort = sortType(CheckSort);
 
