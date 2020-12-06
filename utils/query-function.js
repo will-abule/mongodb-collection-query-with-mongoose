@@ -61,10 +61,16 @@ function getTypesStructuredValue(rules, res) {
 
 function getTypes(rules, res) {
   if (rules.field && rules.field === "sound") {
-    const data = `/.*${metaphone(rules.data)}.*/i`;
+    const data = `/.*${`${metaphone(rules.data)}`.replace(
+      /[-[\]{}()*+?.,\\^$|#\s]/g,
+      "\\$&"
+    )}.*/i`;
     return { [rules.field]: eval(data) };
   } else if (rules.option === "cn") {
-    const data = `/.*${rules.data}.*/i`;
+    const data = `/.*${`${rules.data}`.replace(
+      /[-[\]{}()*+?.,\\^$|#\s]/g,
+      "\\$&"
+    )}.*/i`;
     return { [rules.field]: eval(data) };
   } else if (rules.option === "in" || rules.option === "nin") {
     return {
