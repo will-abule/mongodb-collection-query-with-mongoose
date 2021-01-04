@@ -16,7 +16,7 @@ function searchFilter(req, res) {
       );
 
   if (searchFilter.rules === undefined) {
-    res
+    return res
       .status(400)
       .send(
         "searchFilters was not structured properly, provide searchFilters.rules"
@@ -26,7 +26,7 @@ function searchFilter(req, res) {
       return res
         .status(400)
         .send(
-          "searchOption.rules must be an array of objects with each object having a field, type, option and data should either 'AND' or 'OR' in upercase"
+          "searchOption.rules must be an array of objects with each object having a field, type, option and data should either 'AND' or 'OR' in uppercase"
         );
     }
 
@@ -104,7 +104,7 @@ function searchFilter(req, res) {
       ) {
         return res
           .status(400)
-          .send("rules type is set to 'float' rules but data is not a floaf");
+          .send("rules type is set to 'float' rules but data is not a float");
       } else if (data.type === "date" && !Date.parse(`${data.data}`)) {
         return res
           .status(400)
@@ -246,7 +246,7 @@ function searchFilter(req, res) {
   if (searchFilter.searchOption !== "OR" && searchFilter.searchOption !== "AND")
     return res
       .status(400)
-      .send("searchOption should either 'AND' or 'OR' in upercase");
+      .send("searchOption should either 'AND' or 'OR' in uppercase");
 }
 
 module.exports = searchFilter;

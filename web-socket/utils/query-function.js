@@ -59,7 +59,7 @@ function getTypesStructuredValue(rules, res) {
   }
 }
 
-function getTypes(rules, res) {
+function getTypes(rules, io, reqQuery) {
   if (rules.field && rules.field === "sound") {
     const data = `/.*${`${metaphone(rules.data)}`.replace(
       /[-[\]{}()*+?.,\\^$|#\s]/g,
@@ -123,22 +123,26 @@ function getTypes(rules, res) {
       return { [rules.field]: { [getOption(rules)]: rules.data } };
     }
   } else {
-    return res
-      .status(400)
-      .send(
-        "You've constructed your query wrongly kindly consult the documentation"
-      );
+    return (() => {
+      for (const client of reqQuery.client) {
+        io.to(client.id).emit("error", {
+          status: 400,
+          message:
+            "You've constructed your query wrongly kindly consult the documentation",
+        });
+      }
+    })();
   }
 }
 
-function query(query, res) {
-  // structing for NOSQL query //
+function query(query, io, reqQuery) {
+  // structuring for NoSQL query //
 
   const result = query.map((rules) => {
     if (rules.option === "expression") {
       return { [rules.field]: rules.data };
     } else {
-      return getTypes(rules, res);
+      return getTypes(rules, io, reqQuery);
     }
   });
 
