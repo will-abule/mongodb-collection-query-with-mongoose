@@ -31,7 +31,7 @@ function getObject(obj) {
   return data;
 }
 
-function getTypesStructuredValue(rules, res) {
+function getTypesStructuredValue(rules, io) {
   if (rules.type !== undefined) {
     if (rules.type === "string") {
       return `${rules.data}`;
@@ -44,18 +44,26 @@ function getTypesStructuredValue(rules, res) {
     } else if (rules.type === "date") {
       return new Date(`${rules.data}`);
     } else {
-      return res
-        .status(400)
-        .send(
-          "range can only accept the following types string, number, float, boolean and date"
-        );
+      return (() => {
+        for (const client of reqQuery.client) {
+          io.to(client.id).emit("error", {
+            status: 400,
+            message:
+              "range can only accept the following types string, number, float, boolean and date",
+          });
+        }
+      })();
     }
   } else {
-    return res
-      .status(400)
-      .send(
-        "You've constructed your query wrongly kindly consult the documentation"
-      );
+    return (() => {
+      for (const client of reqQuery.client) {
+        io.to(client.id).emit("error", {
+          status: 400,
+          message:
+            "You've constructed your query wrongly kindly consult the documentation",
+        });
+      }
+    })();
   }
 }
 
@@ -115,8 +123,8 @@ function getTypes(rules, io, reqQuery) {
 
       return {
         [rules.field]: {
-          [getOption(range1)]: getTypesStructuredValue(range1, res),
-          [getOption(range2)]: getTypesStructuredValue(range2, res),
+          [getOption(range1)]: getTypesStructuredValue(range1, io),
+          [getOption(range2)]: getTypesStructuredValue(range2, io),
         },
       };
     } else {
