@@ -4,8 +4,6 @@ const {
   sortType,
   pagination,
 } = require("../shared/shared-function");
-const sortType = require("./utils/sort-type-function");
-const pagination = require("./utils/pagination-function");
 const filter = require("./utils/filters-validation-function");
 const validateSearch = require("./utils/search-filters-validation-function");
 
