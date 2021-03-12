@@ -1,11 +1,12 @@
+import { Response, QueryInterface, Rule, Rules } from "./interfaces-utils";
 const metaphone = require("metaphone");
 
-function getOption(data) {
+function getOption(data: any): string {
   return `$${data.option}`;
 }
 
-function getObject(obj) {
-  let data = {};
+function getObject(obj: any): any {
+  let data: any = {};
 
   for (const option in obj) {
     if (option === "ne") {
@@ -31,7 +32,9 @@ function getObject(obj) {
   return data;
 }
 
-function getTypesStructuredValue(rules, io) {
+function getTypesStructuredValue(
+  rules: Rules
+): string | number | Float32Array | boolean | Date | Response {
   if (rules.type !== undefined) {
     if (rules.type === "string") {
       return `${rules.data}`;
@@ -44,30 +47,22 @@ function getTypesStructuredValue(rules, io) {
     } else if (rules.type === "date") {
       return new Date(`${rules.data}`);
     } else {
-      return (() => {
-        for (const client of reqQuery.client) {
-          io.to(client.id).emit("error", {
-            status: 400,
-            message:
-              "range can only accept the following types string, number, float, boolean and date",
-          });
-        }
-      })();
+      return {
+        type: "error",
+        msg:
+          "range can only accept the following types string, number, float, boolean and date",
+      };
     }
   } else {
-    return (() => {
-      for (const client of reqQuery.client) {
-        io.to(client.id).emit("error", {
-          status: 400,
-          message:
-            "You've constructed your query wrongly kindly consult the documentation",
-        });
-      }
-    })();
+    return {
+      type: "error",
+      msg:
+        "You've constructed your query wrongly kindly consult the documentation",
+    };
   }
 }
 
-function getTypes(rules, io, reqQuery) {
+function getTypes(rules: Rules): Rule {
   if (rules.field && rules.field === "sound") {
     const data = `/.*${`${metaphone(rules.data)}`.replace(
       /[-[\]{}()*+?.,\\^$|#\s]/g,
@@ -84,7 +79,7 @@ function getTypes(rules, io, reqQuery) {
     return {
       [rules.field]: { [getOption(rules)]: rules.data },
     };
-  } else if (rules.type !== undefined) {
+  } else if (rules.type) {
     if (rules.type === "string") {
       return { [rules.field]: { [getOption(rules)]: `${rules.data}` } };
     } else if (rules.type === "number") {
@@ -123,40 +118,36 @@ function getTypes(rules, io, reqQuery) {
 
       return {
         [rules.field]: {
-          [getOption(range1)]: getTypesStructuredValue(range1, io),
-          [getOption(range2)]: getTypesStructuredValue(range2, io),
+          [getOption(range1)]: getTypesStructuredValue(range1),
+          [getOption(range2)]: getTypesStructuredValue(range2),
         },
       };
     } else {
       return { [rules.field]: { [getOption(rules)]: rules.data } };
     }
   } else {
-    return (() => {
-      for (const client of reqQuery.client) {
-        io.to(client.id).emit("error", {
-          status: 400,
-          message:
-            "You've constructed your query wrongly kindly consult the documentation",
-        });
-      }
-    })();
+    return {
+      type: "error",
+      msg:
+        "You've constructed your query wrongly kindly consult the documentation",
+    };
   }
 }
 
-function query(query, io, reqQuery) {
+export function query(query: QueryInterface): Rule[] | undefined {
   // structuring for NoSQL query //
+  let result;
+  if (query.rules) {
+    result = query.rules.map((rules) => {
+      if (rules.option === "expression") {
+        return { [rules.field]: rules.data };
+      } else {
+        return getTypes(rules);
+      }
+    });
 
-  const result = query.map((rules) => {
-    if (rules.option === "expression") {
-      return { [rules.field]: rules.data };
-    } else {
-      return getTypes(rules, io, reqQuery);
-    }
-  });
-
-  // console.log("result", result);
+    // console.log("result", result);
+  }
 
   return result;
 }
-
-module.exports = query;

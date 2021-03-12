@@ -1,6 +1,8 @@
 //@ts-check
 
-function checkSort(sort) {
+import { Document } from "mongoose";
+
+export function checkSort(sort: string) {
   if (sort === "asc") {
     return "asc";
   } else if (sort === "desc") {
@@ -10,13 +12,18 @@ function checkSort(sort) {
   }
 }
 
-function pagination(db, pageSize, pageNumber, records) {
+export function pagination(
+  db: Document[],
+  pageSize: number,
+  pageNumber: number,
+  records: number
+) {
   const Total = Math.ceil(records / pageSize);
 
   const result = {
     data: db,
-    pageSize: parseInt(pageSize),
-    pageNumber: parseInt(pageNumber),
+    pageSize: pageSize,
+    pageNumber: pageNumber,
     total: Total,
     records: records,
   };
@@ -24,8 +31,6 @@ function pagination(db, pageSize, pageNumber, records) {
   return result;
 }
 
-function sortType(sort) {
+export function sortType(sort: string) {
   return sort === "asc" ? 1 : -1;
 }
-
-module.exports = { checkSort, pagination, sortType };
