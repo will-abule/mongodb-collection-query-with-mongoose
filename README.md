@@ -25,7 +25,7 @@
 </p>
 
 <p><strong>Post model file</strong></p><pre>const mongoose = require(&quot;mongoose&quot;);
-const postScheama = new mongoose.Schema({
+const postSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -50,7 +50,7 @@ const postScheama = new mongoose.Schema({
     default: Date.now
   }
 });
-const Post = mongoose.model(&quot;Post&quot;, postScheama);
+const Post = mongoose.model(&quot;Post&quot;, postSchema);
 module.exports.postScheama = postScheama;
 module.exports.Post = Post;</pre>
 
@@ -58,15 +58,21 @@ module.exports.Post = Post;</pre>
 	<br>
 </p>
 
-<p><strong>post route file</strong></p><pre>router.get(&quot;/post&quot;, async (req, res) =&gt; {
+<p><strong>post route file</strong></p><pre>const getResReq = require(&quot;mongodb-collection-query-with-mongoose&quot;);
 
-try {
+router.get(&quot;/post&quot;, async (req, res) =&gt; {
+  try {
      const setect = &quot;\_id title userId description imageUrl&quot;
-     const data = await Promise.all([ getResReq(req, res, Post, select) ]);
-     if (data.type === &quot;error&quot;)
-        return res.status(500).send({ message : `internal server error`, error: data })
-res.send(data[0]);
-  } catch {
+const response = await Promise.all([getResReq(query, Post, select)]);
+const { data, type, msg } = response[0];
+if (type === &quot;error&quot;)
+return res
+.status(500)
+.send({ message: `internal server error`, error: msg });
+
+     return res.send(data);
+
+} catch {
     return res.status(500).send({ message : `internal server error`, error: data })
   }
 });
