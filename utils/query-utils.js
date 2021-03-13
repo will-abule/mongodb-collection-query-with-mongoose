@@ -30,7 +30,7 @@ function getObject(obj) {
     return data;
 }
 function getTypesStructuredValue(rules) {
-    if (rules.type !== undefined) {
+    if (typeof rules.type !== "undefined") {
         if (rules.type === "string") {
             return `${rules.data}`;
         }

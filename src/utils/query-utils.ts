@@ -35,7 +35,7 @@ function getObject(obj: any): any {
 function getTypesStructuredValue(
   rules: Rules
 ): string | number | Float32Array | boolean | Date | Response {
-  if (rules.type !== undefined) {
+  if (typeof rules.type !== "undefined") {
     if (rules.type === "string") {
       return `${rules.data}`;
     } else if (rules.type === "number") {

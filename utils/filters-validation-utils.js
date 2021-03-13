@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.filters = void 0;
 function filters(query) {
-    if (!query.pageSize || typeof query.pageSize !== "number") {
+    if (typeof query.pageSize !== "number") {
         return {
             type: "error",
             msg: !query.pageSize
@@ -10,7 +10,7 @@ function filters(query) {
                 : "pageSize Should be a number",
         };
     }
-    else if (!query.pageNumber || typeof query.pageNumber !== "number") {
+    else if (typeof query.pageNumber !== "number") {
         return {
             type: "error",
             msg: !query.pageNumber
@@ -18,7 +18,7 @@ function filters(query) {
                 : "pageNumber should be a number",
         };
     }
-    else if (!query.sort || typeof query.sort !== "string") {
+    else if (typeof query.sort !== "string") {
         return {
             type: "error",
             msg: !query.sort
@@ -26,7 +26,7 @@ function filters(query) {
                 : "sort should be a string",
         };
     }
-    else if (!query.sortName || typeof query.sortName !== "string") {
+    else if (typeof query.sortName !== "string") {
         return {
             type: "error",
             msg: !query.sortName
