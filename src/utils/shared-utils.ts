@@ -1,6 +1,7 @@
 //@ts-check
 
 import { Document } from "mongoose";
+import { Result } from "./interfaces-utils";
 
 export function checkSort(sort: string) {
   if (sort === "asc") {
@@ -17,7 +18,7 @@ export function pagination(
   pageSize: number,
   pageNumber: number,
   records: number
-) {
+): Result {
   const Total = Math.ceil(records / pageSize);
 
   const result = {

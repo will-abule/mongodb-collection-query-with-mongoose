@@ -25,6 +25,14 @@ export interface QueryInterface {
   rules?: Rules[];
 }
 
+export interface Result {
+  data: any[];
+  pageSize: number;
+  pageNumber: number;
+  total: number;
+  records: number;
+}
+
 export interface Response {
   type: string;
   msg?: string;

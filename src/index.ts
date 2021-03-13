@@ -1,5 +1,5 @@
 import { Model, Document } from "mongoose";
-import { QueryInterface, Response } from "./utils/interfaces-utils";
+import { QueryInterface, Response, Result } from "./utils/interfaces-utils";
 import { searchFilter as validateSearch } from "./utils/search-filters-validation-utils";
 import { filters } from "./utils/filters-validation-utils";
 import { checkSort, sortType, pagination } from "./utils/shared-utils";
@@ -58,7 +58,7 @@ export default async function getResReq(
 
           let records = await DBModel.find().or(result).countDocuments();
 
-          const data = pagination(
+          const data: Result = pagination(
             dbData,
             query.pageSize,
             query.pageNumber,
@@ -107,7 +107,7 @@ export default async function getResReq(
 
           let records = await DBModel.find().or(result).countDocuments();
 
-          const data = pagination(
+          const data: Result = pagination(
             dbData,
             query.pageSize,
             query.pageNumber,
@@ -157,7 +157,7 @@ export default async function getResReq(
 
       let records = await DBModel.countDocuments();
 
-      const data = pagination(
+      const data: Result = pagination(
         dbData,
         query.pageSize,
         query.pageNumber,
