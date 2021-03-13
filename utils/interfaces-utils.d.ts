@@ -31,6 +31,6 @@ export interface Result {
 export interface Response {
     type: string;
     msg?: string;
-    data?: any;
+    data?: Result;
 }
 export {};
