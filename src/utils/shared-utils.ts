@@ -19,13 +19,13 @@ export function pagination(
   pageNumber: number,
   records: number
 ): Result {
-  const Total = Math.ceil(records / pageSize);
+  const total = Math.ceil(records / pageSize);
 
   const result = {
     data: db,
     pageSize: pageSize,
     pageNumber: pageNumber,
-    total: Total,
+    total,
     records: records,
   };
 

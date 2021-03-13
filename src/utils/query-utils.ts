@@ -62,18 +62,17 @@ function getTypesStructuredValue(
   }
 }
 
+function escapeSpecialCharacters(value: string): string {
+  // escape special characters in mongodb like "/"
+  return `/.*${`${value}`.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")}.*/i`;
+}
+
 function getTypes(rules: Rules): Rule {
   if (rules.field && rules.field === "sound") {
-    const data = `/.*${`${metaphone(rules.data)}`.replace(
-      /[-[\]{}()*+?.,\\^$|#\s]/g,
-      "\\$&"
-    )}.*/i`;
+    const data = escapeSpecialCharacters(`${metaphone(rules.data)}`);
     return { [rules.field]: eval(data) };
   } else if (rules.option === "cn") {
-    const data = `/.*${`${rules.data}`.replace(
-      /[-[\]{}()*+?.,\\^$|#\s]/g,
-      "\\$&"
-    )}.*/i`;
+    const data = escapeSpecialCharacters(`${rules.data}`);
     return { [rules.field]: eval(data) };
   } else if (rules.option === "in" || rules.option === "nin") {
     return {
@@ -135,7 +134,7 @@ function getTypes(rules: Rules): Rule {
 }
 
 export function query(query: QueryInterface): Rule[] | undefined {
-  // structuring for NoSQL query //
+  // structuring Mongodb query result will look like this [{ name: /*will*/i, date : $gte: some_date }] //
   let result;
   if (query.rules) {
     result = query.rules.map((rules) => {
@@ -145,8 +144,6 @@ export function query(query: QueryInterface): Rule[] | undefined {
         return getTypes(rules);
       }
     });
-
-    // console.log("result", result);
   }
 
   return result;

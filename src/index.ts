@@ -21,7 +21,7 @@ export default async function getResReq(
         const searchFilter = JSON.parse(query.searchFilters);
 
         if (searchFilter.searchOption === "OR") {
-          // constructing searchFilter rules to NoSQL query syntax' for OR
+          // constructing searchFilter rules to Mongodb query syntax' for OR
 
           const _query = searchFilter.rules;
 
@@ -72,7 +72,7 @@ export default async function getResReq(
             data: data,
           };
         } else {
-          // constructing searchFilter rules to NoSQL query syntax' for AND
+          // constructing searchFilter rules to Mongodb query syntax' for AND
 
           const _query = searchFilter.rules;
 
@@ -170,7 +170,6 @@ export default async function getResReq(
       };
     }
   } catch (error) {
-    // console.log(error);
     return {
       type: "error",
       msg: JSON.stringify(error),

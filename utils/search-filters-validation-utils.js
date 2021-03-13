@@ -51,8 +51,6 @@ function searchFilter(query) {
             }
             if ((!data.option &&
                 !(data.type === "range" || data.type === "objectArray")) ||
-                (!data.option &&
-                    !(data.type !== "range" || data.type !== "objectArray")) ||
                 (data.option &&
                     !(data.option === "cn" ||
                         data.option === "ne" ||
@@ -110,11 +108,10 @@ function searchFilter(query) {
             else if (data.type === "objectArray" && typeof data.data !== "object") {
                 return {
                     type: "error",
-                    msg: "rules type is set to 'objectArray' rules but data is not an objectArray",
+                    msg: "rules type is set to 'objectArray' rules but data is not an object",
                 };
             }
             else if (data.type === "objectArray" && typeof data.data === "object") {
-                console.log("data.data", data.data);
                 for (const option in data.data) {
                     if (!(option === "ne" ||
                         option === "eq" ||

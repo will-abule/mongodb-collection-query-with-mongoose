@@ -14,12 +14,12 @@ function checkSort(sort) {
 }
 exports.checkSort = checkSort;
 function pagination(db, pageSize, pageNumber, records) {
-    const Total = Math.ceil(records / pageSize);
+    const total = Math.ceil(records / pageSize);
     const result = {
         data: db,
         pageSize: pageSize,
         pageNumber: pageNumber,
-        total: Total,
+        total,
         records: records,
     };
     return result;

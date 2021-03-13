@@ -1,6 +1,7 @@
 import { Response, QueryInterface } from "./interfaces-utils";
 
 export function searchFilter(query: QueryInterface): Response | undefined {
+  // validating query.searchFilters in order to generate the proper mongodb query
   if (!query.searchFilters)
     return {
       type: "error",
@@ -65,8 +66,6 @@ export function searchFilter(query: QueryInterface): Response | undefined {
       if (
         (!data.option &&
           !(data.type === "range" || data.type === "objectArray")) ||
-        (!data.option &&
-          !(data.type !== "range" || data.type !== "objectArray")) ||
         (data.option &&
           !(
             data.option === "cn" ||
@@ -129,10 +128,9 @@ export function searchFilter(query: QueryInterface): Response | undefined {
         return {
           type: "error",
           msg:
-            "rules type is set to 'objectArray' rules but data is not an objectArray",
+            "rules type is set to 'objectArray' rules but data is not an object",
         };
       } else if (data.type === "objectArray" && typeof data.data === "object") {
-        console.log("data.data", data.data);
         for (const option in data.data) {
           if (
             !(
