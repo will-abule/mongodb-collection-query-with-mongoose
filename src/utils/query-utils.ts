@@ -48,6 +48,7 @@ function getTypesStructuredValue(
       return new Date(`${rules.data}`);
     } else {
       return {
+        status: 400,
         type: "error",
         msg:
           "range can only accept the following types string, number, float, boolean and date",
@@ -55,6 +56,7 @@ function getTypesStructuredValue(
     }
   } else {
     return {
+      status: 400,
       type: "error",
       msg:
         "You've constructed your query wrongly kindly consult the documentation",
@@ -126,6 +128,7 @@ function getTypes(rules: Rules): Rule {
     }
   } else {
     return {
+      status: 400,
       type: "error",
       msg:
         "You've constructed your query wrongly kindly consult the documentation",

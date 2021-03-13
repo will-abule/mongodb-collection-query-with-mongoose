@@ -4,6 +4,7 @@ export function searchFilter(query: QueryInterface): Response | undefined {
   // validating query.searchFilters in order to generate the proper mongodb query
   if (!query.searchFilters)
     return {
+      status: 400,
       type: "error",
       msg:
         "searchFilters was not provided, make sure searchFilters is an object with searchOption set to 'OR' or 'AND' and rules is an array of objects with each object containing field, option, and data ",
@@ -13,6 +14,7 @@ export function searchFilter(query: QueryInterface): Response | undefined {
 
   if (typeof searchFilter.searchOption === "undefined")
     return {
+      status: 400,
       type: "error",
       msg:
         "searchFilters was not structured properly, provide searchFilters.searchOption",
@@ -20,6 +22,7 @@ export function searchFilter(query: QueryInterface): Response | undefined {
 
   if (typeof searchFilter.rules === "undefined")
     return {
+      status: 400,
       type: "error",
       msg:
         "searchFilters was not structured properly, provide searchFilters.rules",
@@ -27,6 +30,7 @@ export function searchFilter(query: QueryInterface): Response | undefined {
 
   if (Array.isArray(searchFilter.rules) === false)
     return {
+      status: 400,
       type: "error",
       msg:
         "searchOption.rules must be an array of objects with each object having a field, type, option and data should either 'AND' or 'OR' in uppercase",
@@ -35,6 +39,7 @@ export function searchFilter(query: QueryInterface): Response | undefined {
   for (const data of searchFilter.rules) {
     if (!data.field || !(data.field && typeof data.field === "string")) {
       return {
+        status: 400,
         type: "error",
         msg: "rules field is required and must be set to 'string'",
       };
@@ -56,6 +61,7 @@ export function searchFilter(query: QueryInterface): Response | undefined {
       )
     ) {
       return {
+        status: 400,
         type: "error",
         msg:
           "rules type must be set to 'string', 'number', 'float', 'date' or 'boolean' or 'expression' or 'range' or 'plainArray' or 'objectArray' or 'arraySingle'",
@@ -80,6 +86,7 @@ export function searchFilter(query: QueryInterface): Response | undefined {
         ))
     ) {
       return {
+        status: 400,
         type: "error",
         msg:
           "rules option must be set to 'cn', 'ne', 'eq', 'gt', 'gte', 'lt', 'lte', 'nin', 'in' and for plainArray 'all'",
@@ -88,11 +95,13 @@ export function searchFilter(query: QueryInterface): Response | undefined {
 
     if (data.type === "string" && typeof data.data !== "string") {
       return {
+        status: 400,
         type: "error",
         msg: "rules type is set to 'string' rules but data is not a string",
       };
     } else if (data.type === "number" && typeof data.data !== "number") {
       return {
+        status: 400,
         type: "error",
         msg: "rules type is set to 'number' rules but data is not a number",
       };
@@ -101,16 +110,19 @@ export function searchFilter(query: QueryInterface): Response | undefined {
       data.data.toString().indexOf(".") != -1
     ) {
       return {
+        status: 400,
         type: "error",
         msg: "rules type is set to 'float' rules but data is not a float",
       };
     } else if (data.type === "date" && !Date.parse(`${data.data}`)) {
       return {
+        status: 400,
         type: "error",
         msg: "rules type is set to 'date' rules but data is not a date",
       };
     } else if (data.type === "boolean" && typeof data.data !== "boolean") {
       return {
+        status: 400,
         type: "error",
         msg: "rules type is set to 'boolean' rules but data is not a boolean",
       };
@@ -119,12 +131,14 @@ export function searchFilter(query: QueryInterface): Response | undefined {
       !(Array.isArray(data.data) || typeof data.data === "string")
     ) {
       return {
+        status: 400,
         type: "error",
         msg:
           "rules type is set to 'plainArray' rules but data is not an array or a string",
       };
     } else if (data.type === "objectArray" && typeof data.data !== "object") {
       return {
+        status: 400,
         type: "error",
         msg:
           "rules type is set to 'objectArray' rules but data is not an object",
@@ -142,6 +156,7 @@ export function searchFilter(query: QueryInterface): Response | undefined {
           )
         ) {
           return {
+            status: 400,
             type: "error",
             msg:
               "if rules type is set to 'objectArray' each field in the object should be 'ne', 'eq', 'gt', 'gte', 'lt', and 'lte'",
@@ -150,6 +165,7 @@ export function searchFilter(query: QueryInterface): Response | undefined {
       }
     } else if (data.type === "range" && !Array.isArray(data.data)) {
       return {
+        status: 400,
         type: "error",
         msg: "rules type is set to 'range' rules but data is not a array",
       };
@@ -159,6 +175,7 @@ export function searchFilter(query: QueryInterface): Response | undefined {
       data.data.length !== 2
     ) {
       return {
+        status: 400,
         type: "error",
         msg:
           "rules type is set to 'range' and rules data is an array but is not of length 2",
@@ -188,6 +205,7 @@ export function searchFilter(query: QueryInterface): Response | undefined {
         )
       )
         return {
+          status: 400,
           type: "error",
           msg:
             "range range.data array should be an object with an option field which only accept eq, ne, gt, gte, lt and lte",
@@ -196,6 +214,7 @@ export function searchFilter(query: QueryInterface): Response | undefined {
 
     if (data.option === "in" && !Array.isArray(data.data)) {
       return {
+        status: 400,
         type: "error",
         msg: "rules option must is set to 'in' but is not an array",
       };
@@ -210,6 +229,7 @@ export function searchFilter(query: QueryInterface): Response | undefined {
           )
         ) {
           return {
+            status: 400,
             type: "error",
             msg:
               "rules option must is set to 'in' and rules data is an array must be either a 'string', 'number', 'float' and 'date'",
@@ -220,6 +240,7 @@ export function searchFilter(query: QueryInterface): Response | undefined {
 
     if (data.option === "nin" && !Array.isArray(data.data)) {
       return {
+        status: 400,
         type: "error",
         msg: "rules option must is set to 'nin' but is not an array",
       };
@@ -234,6 +255,7 @@ export function searchFilter(query: QueryInterface): Response | undefined {
           )
         ) {
           return {
+            status: 400,
             type: "error",
             msg:
               "rules option must is set to 'nin' and rules data is an array must be either a 'string', 'number', 'float' and 'date'",
@@ -248,6 +270,7 @@ export function searchFilter(query: QueryInterface): Response | undefined {
     searchFilter.searchOption.toUpperCase() !== "AND"
   )
     return {
+      status: 400,
       type: "error",
       msg: "searchOption should either 'AND' or 'OR' in uppercase",
     };

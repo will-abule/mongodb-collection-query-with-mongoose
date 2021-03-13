@@ -29,6 +29,7 @@ export interface Result {
     records: number;
 }
 export interface Response {
+    status: number;
     type: string;
     msg?: string;
     data?: Result;

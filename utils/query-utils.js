@@ -48,6 +48,7 @@ function getTypesStructuredValue(rules) {
         }
         else {
             return {
+                status: 400,
                 type: "error",
                 msg: "range can only accept the following types string, number, float, boolean and date",
             };
@@ -55,6 +56,7 @@ function getTypesStructuredValue(rules) {
     }
     else {
         return {
+            status: 400,
             type: "error",
             msg: "You've constructed your query wrongly kindly consult the documentation",
         };
@@ -134,6 +136,7 @@ function getTypes(rules) {
     }
     else {
         return {
+            status: 400,
             type: "error",
             msg: "You've constructed your query wrongly kindly consult the documentation",
         };

@@ -34,6 +34,7 @@ export interface Result {
 }
 
 export interface Response {
+  status: number;
   type: string;
   msg?: string;
   data?: Result;

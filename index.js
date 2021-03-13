@@ -26,6 +26,7 @@ function getResReq(query, DBModel, select) {
                         const result = query_utils_1.query(searchFilter);
                         if (!result) {
                             return {
+                                status: 400,
                                 type: "error",
                                 msg: "Your searchFilter.rules was not found Kindly consult the documentation",
                             };
@@ -36,6 +37,7 @@ function getResReq(query, DBModel, select) {
                         const CheckSort = shared_utils_1.checkSort(query.sort);
                         if (CheckSort === "none")
                             return {
+                                status: 400,
                                 type: "error",
                                 msg: "sort must be asc or desc",
                             };
@@ -49,6 +51,7 @@ function getResReq(query, DBModel, select) {
                         let records = yield DBModel.find().or(result).countDocuments();
                         const data = shared_utils_1.pagination(dbData, query.pageSize, query.pageNumber, records);
                         return {
+                            status: 200,
                             type: "success",
                             data: data,
                         };
@@ -57,6 +60,7 @@ function getResReq(query, DBModel, select) {
                         const result = query_utils_1.query(searchFilter);
                         if (!result)
                             return {
+                                status: 400,
                                 type: "error",
                                 msg: "Your searchFilter.rules was not found Kindly consult the documentation",
                             };
@@ -66,6 +70,7 @@ function getResReq(query, DBModel, select) {
                         const CheckSort = shared_utils_1.checkSort(query.sort);
                         if (CheckSort === "none")
                             return {
+                                status: 400,
                                 type: "error",
                                 msg: "sort must be asc or desc",
                             };
@@ -79,6 +84,7 @@ function getResReq(query, DBModel, select) {
                         let records = yield DBModel.find().or(result).countDocuments();
                         const data = shared_utils_1.pagination(dbData, query.pageSize, query.pageNumber, records);
                         return {
+                            status: 200,
                             type: "success",
                             data: data,
                         };
@@ -86,6 +92,7 @@ function getResReq(query, DBModel, select) {
                 }
                 else {
                     return {
+                        status: 400,
                         type: "error",
                         msg: "searchFilters is required when filter is set to true",
                     };
@@ -98,6 +105,7 @@ function getResReq(query, DBModel, select) {
                 const CheckSort = shared_utils_1.checkSort(query.sort);
                 if (CheckSort === "none")
                     return {
+                        status: 400,
                         type: "error",
                         msg: "sort must be asc or desc",
                     };
@@ -110,6 +118,7 @@ function getResReq(query, DBModel, select) {
                 let records = yield DBModel.countDocuments();
                 const data = shared_utils_1.pagination(dbData, query.pageSize, query.pageNumber, records);
                 return {
+                    status: 200,
                     type: "success",
                     data: data,
                 };
@@ -117,8 +126,9 @@ function getResReq(query, DBModel, select) {
         }
         catch (error) {
             return {
+                status: 500,
                 type: "error",
-                msg: JSON.stringify(error),
+                msg: `${error}`,
             };
         }
     });

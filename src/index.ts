@@ -31,6 +31,7 @@ export default async function getResReq(
 
           if (!result) {
             return {
+              status: 400,
               type: "error",
               msg:
                 "Your searchFilter.rules was not found Kindly consult the documentation",
@@ -45,6 +46,7 @@ export default async function getResReq(
 
           if (CheckSort === "none")
             return {
+              status: 400,
               type: "error",
               msg: "sort must be asc or desc",
             };
@@ -70,6 +72,7 @@ export default async function getResReq(
           // response to client
 
           return {
+            status: 200,
             type: "success",
             data: data,
           };
@@ -80,6 +83,7 @@ export default async function getResReq(
 
           if (!result)
             return {
+              status: 400,
               type: "error",
               msg:
                 "Your searchFilter.rules was not found Kindly consult the documentation",
@@ -92,6 +96,7 @@ export default async function getResReq(
 
           if (CheckSort === "none")
             return {
+              status: 400,
               type: "error",
               msg: "sort must be asc or desc",
             };
@@ -117,6 +122,7 @@ export default async function getResReq(
           // response to client
 
           return {
+            status: 200,
             type: "success",
             data: data,
           };
@@ -126,6 +132,7 @@ export default async function getResReq(
         }
       } else {
         return {
+          status: 400,
           type: "error",
           msg: "searchFilters is required when filter is set to true",
         };
@@ -143,6 +150,7 @@ export default async function getResReq(
 
       if (CheckSort === "none")
         return {
+          status: 400,
           type: "error",
           msg: "sort must be asc or desc",
         };
@@ -165,14 +173,16 @@ export default async function getResReq(
       );
 
       return {
+        status: 200,
         type: "success",
         data: data,
       };
     }
   } catch (error) {
     return {
+      status: 500,
       type: "error",
-      msg: JSON.stringify(error),
+      msg: `${error}`,
     };
   }
 }

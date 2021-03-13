@@ -4,28 +4,33 @@ exports.searchFilter = void 0;
 function searchFilter(query) {
     if (!query.searchFilters)
         return {
+            status: 400,
             type: "error",
             msg: "searchFilters was not provided, make sure searchFilters is an object with searchOption set to 'OR' or 'AND' and rules is an array of objects with each object containing field, option, and data ",
         };
     const searchFilter = JSON.parse(query.searchFilters);
     if (typeof searchFilter.searchOption === "undefined")
         return {
+            status: 400,
             type: "error",
             msg: "searchFilters was not structured properly, provide searchFilters.searchOption",
         };
     if (typeof searchFilter.rules === "undefined")
         return {
+            status: 400,
             type: "error",
             msg: "searchFilters was not structured properly, provide searchFilters.rules",
         };
     if (Array.isArray(searchFilter.rules) === false)
         return {
+            status: 400,
             type: "error",
             msg: "searchOption.rules must be an array of objects with each object having a field, type, option and data should either 'AND' or 'OR' in uppercase",
         };
     for (const data of searchFilter.rules) {
         if (!data.field || !(data.field && typeof data.field === "string")) {
             return {
+                status: 400,
                 type: "error",
                 msg: "rules field is required and must be set to 'string'",
             };
@@ -42,6 +47,7 @@ function searchFilter(query) {
                     data.type === "objectArray" ||
                     data.type === "range"))) {
             return {
+                status: 400,
                 type: "error",
                 msg: "rules type must be set to 'string', 'number', 'float', 'date' or 'boolean' or 'expression' or 'range' or 'plainArray' or 'objectArray' or 'arraySingle'",
             };
@@ -60,18 +66,21 @@ function searchFilter(query) {
                     data.option === "in" ||
                     data.option === "all"))) {
             return {
+                status: 400,
                 type: "error",
                 msg: "rules option must be set to 'cn', 'ne', 'eq', 'gt', 'gte', 'lt', 'lte', 'nin', 'in' and for plainArray 'all'",
             };
         }
         if (data.type === "string" && typeof data.data !== "string") {
             return {
+                status: 400,
                 type: "error",
                 msg: "rules type is set to 'string' rules but data is not a string",
             };
         }
         else if (data.type === "number" && typeof data.data !== "number") {
             return {
+                status: 400,
                 type: "error",
                 msg: "rules type is set to 'number' rules but data is not a number",
             };
@@ -79,18 +88,21 @@ function searchFilter(query) {
         else if (data.type === "float" &&
             data.data.toString().indexOf(".") != -1) {
             return {
+                status: 400,
                 type: "error",
                 msg: "rules type is set to 'float' rules but data is not a float",
             };
         }
         else if (data.type === "date" && !Date.parse(`${data.data}`)) {
             return {
+                status: 400,
                 type: "error",
                 msg: "rules type is set to 'date' rules but data is not a date",
             };
         }
         else if (data.type === "boolean" && typeof data.data !== "boolean") {
             return {
+                status: 400,
                 type: "error",
                 msg: "rules type is set to 'boolean' rules but data is not a boolean",
             };
@@ -98,12 +110,14 @@ function searchFilter(query) {
         else if (data.type === "plainArray" &&
             !(Array.isArray(data.data) || typeof data.data === "string")) {
             return {
+                status: 400,
                 type: "error",
                 msg: "rules type is set to 'plainArray' rules but data is not an array or a string",
             };
         }
         else if (data.type === "objectArray" && typeof data.data !== "object") {
             return {
+                status: 400,
                 type: "error",
                 msg: "rules type is set to 'objectArray' rules but data is not an object",
             };
@@ -117,6 +131,7 @@ function searchFilter(query) {
                     option === "lt" ||
                     option === "lte")) {
                     return {
+                        status: 400,
                         type: "error",
                         msg: "if rules type is set to 'objectArray' each field in the object should be 'ne', 'eq', 'gt', 'gte', 'lt', and 'lte'",
                     };
@@ -125,6 +140,7 @@ function searchFilter(query) {
         }
         else if (data.type === "range" && !Array.isArray(data.data)) {
             return {
+                status: 400,
                 type: "error",
                 msg: "rules type is set to 'range' rules but data is not a array",
             };
@@ -133,6 +149,7 @@ function searchFilter(query) {
             Array.isArray(data.data) &&
             data.data.length !== 2) {
             return {
+                status: 400,
                 type: "error",
                 msg: "rules type is set to 'range' and rules data is an array but is not of length 2",
             };
@@ -155,12 +172,14 @@ function searchFilter(query) {
                     range2.option === "lt" ||
                     range2.option === "lte"))
                 return {
+                    status: 400,
                     type: "error",
                     msg: "range range.data array should be an object with an option field which only accept eq, ne, gt, gte, lt and lte",
                 };
         }
         if (data.option === "in" && !Array.isArray(data.data)) {
             return {
+                status: 400,
                 type: "error",
                 msg: "rules option must is set to 'in' but is not an array",
             };
@@ -172,6 +191,7 @@ function searchFilter(query) {
                     !Date.parse(`${data.data}`) ||
                     data.data.toString().indexOf(".") != -1)) {
                     return {
+                        status: 400,
                         type: "error",
                         msg: "rules option must is set to 'in' and rules data is an array must be either a 'string', 'number', 'float' and 'date'",
                     };
@@ -180,6 +200,7 @@ function searchFilter(query) {
         }
         if (data.option === "nin" && !Array.isArray(data.data)) {
             return {
+                status: 400,
                 type: "error",
                 msg: "rules option must is set to 'nin' but is not an array",
             };
@@ -191,6 +212,7 @@ function searchFilter(query) {
                     !Date.parse(`${data.data}`) ||
                     data.data.toString().indexOf(".") != -1)) {
                     return {
+                        status: 400,
                         type: "error",
                         msg: "rules option must is set to 'nin' and rules data is an array must be either a 'string', 'number', 'float' and 'date'",
                     };
@@ -201,6 +223,7 @@ function searchFilter(query) {
     if (searchFilter.searchOption.toUpperCase() !== "OR" &&
         searchFilter.searchOption.toUpperCase() !== "AND")
         return {
+            status: 400,
             type: "error",
             msg: "searchOption should either 'AND' or 'OR' in uppercase",
         };

@@ -4,6 +4,7 @@ export function filters(query: QueryInterface): Response | undefined {
   // validating pageSize, pageNumber, sort, and sortName quey params
   if (typeof query.pageSize !== "number") {
     return {
+      status: 400,
       type: "error",
       msg: !query.pageSize
         ? "pageSize not provided! Please provide it as a query params."
@@ -11,6 +12,7 @@ export function filters(query: QueryInterface): Response | undefined {
     };
   } else if (typeof query.pageNumber !== "number") {
     return {
+      status: 400,
       type: "error",
       msg: !query.pageNumber
         ? "pageNumber not provided! Please provide it as a query params."
@@ -18,6 +20,7 @@ export function filters(query: QueryInterface): Response | undefined {
     };
   } else if (typeof query.sort !== "string") {
     return {
+      status: 400,
       type: "error",
       msg: !query.sort
         ? "sort not provided! Please provide it as a query params."
@@ -25,6 +28,7 @@ export function filters(query: QueryInterface): Response | undefined {
     };
   } else if (typeof query.sortName !== "string") {
     return {
+      status: 400,
       type: "error",
       msg: !query.sortName
         ? "sortName not provided! Please provide it as a query params."

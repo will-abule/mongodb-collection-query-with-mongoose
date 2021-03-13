@@ -64,10 +64,10 @@ router.get(&quot;/post&quot;, async (req, res) =&gt; {
   try {
      const setect = &quot;\_id title userId description imageUrl&quot;
 const response = await Promise.all([getResReq(query, Post, select)]);
-const { data, type, msg } = response[0];
+const { data, type, msg, status } = response[0];
 if (type === &quot;error&quot;)
 return res
-.status(500)
+.status(status)
 .send({ message: `internal server error`, error: msg });
 
      return res.send(data);
