@@ -27,9 +27,7 @@ export default async function getResReq(
         if (searchFilter.searchOption.toUpperCase() === "OR") {
           // constructing searchFilter rules to Mongodb query syntax' for OR
 
-          const _query = searchFilter.rules;
-
-          const result = Query(_query);
+          const result = Query(searchFilter);
 
           if (!result) {
             return {
@@ -78,9 +76,7 @@ export default async function getResReq(
         } else {
           // constructing searchFilter rules to Mongodb query syntax' for AND
 
-          const _query = searchFilter.rules;
-
-          const result = Query(_query);
+          const result = Query(searchFilter);
 
           if (!result)
             return {

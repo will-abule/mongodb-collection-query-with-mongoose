@@ -23,8 +23,7 @@ function getResReq(query, DBModel, select) {
                 if (query.searchFilters) {
                     const searchFilter = JSON.parse(query.searchFilters);
                     if (searchFilter.searchOption.toUpperCase() === "OR") {
-                        const _query = searchFilter.rules;
-                        const result = query_utils_1.query(_query);
+                        const result = query_utils_1.query(searchFilter);
                         if (!result) {
                             return {
                                 type: "error",
@@ -55,8 +54,7 @@ function getResReq(query, DBModel, select) {
                         };
                     }
                     else {
-                        const _query = searchFilter.rules;
-                        const result = query_utils_1.query(_query);
+                        const result = query_utils_1.query(searchFilter);
                         if (!result)
                             return {
                                 type: "error",
