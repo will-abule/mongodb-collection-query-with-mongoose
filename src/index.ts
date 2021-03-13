@@ -1,5 +1,9 @@
 import { Model, Document } from "mongoose";
-import { QueryInterface, Response, Result } from "./utils/interfaces-utils";
+import {
+  QueryInterface,
+  Response as Res,
+  Result,
+} from "./utils/interfaces-utils";
 import { searchFilter as validateSearch } from "./utils/search-filters-validation-utils";
 import { filters } from "./utils/filters-validation-utils";
 import { checkSort, sortType, pagination } from "./utils/shared-utils";
@@ -9,7 +13,7 @@ export default async function getResReq(
   query: QueryInterface,
   DBModel: Model<Document>,
   select: string
-): Promise<Response> {
+): Promise<Res> {
   // checking for filters
   try {
     if (query.filter) {
