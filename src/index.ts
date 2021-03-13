@@ -24,7 +24,7 @@ export default async function getResReq(
       if (query.searchFilters) {
         const searchFilter = JSON.parse(query.searchFilters);
 
-        if (searchFilter.searchOption === "OR") {
+        if (searchFilter.searchOption.toUpperCase() === "OR") {
           // constructing searchFilter rules to Mongodb query syntax' for OR
 
           const _query = searchFilter.rules;

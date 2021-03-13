@@ -22,7 +22,7 @@ function getResReq(query, DBModel, select) {
                     return _validateSearch;
                 if (query.searchFilters) {
                     const searchFilter = JSON.parse(query.searchFilters);
-                    if (searchFilter.searchOption === "OR") {
+                    if (searchFilter.searchOption.toUpperCase() === "OR") {
                         const _query = searchFilter.rules;
                         const result = query_utils_1.query(_query);
                         if (!result) {

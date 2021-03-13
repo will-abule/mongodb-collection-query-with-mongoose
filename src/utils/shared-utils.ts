@@ -4,9 +4,9 @@ import { Document } from "mongoose";
 import { Result } from "./interfaces-utils";
 
 export function checkSort(sort: string) {
-  if (sort === "asc") {
+  if (sort.toLowerCase() === "asc") {
     return "asc";
-  } else if (sort === "desc") {
+  } else if (sort.toLowerCase() === "desc") {
     return "desc";
   } else {
     return "none";

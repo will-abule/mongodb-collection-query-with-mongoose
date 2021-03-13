@@ -2,10 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sortType = exports.pagination = exports.checkSort = void 0;
 function checkSort(sort) {
-    if (sort === "asc") {
+    if (sort.toLowerCase() === "asc") {
         return "asc";
     }
-    else if (sort === "desc") {
+    else if (sort.toLowerCase() === "desc") {
         return "desc";
     }
     else {
