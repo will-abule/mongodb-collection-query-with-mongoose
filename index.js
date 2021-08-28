@@ -81,7 +81,7 @@ function getResReq(query, DBModel, select) {
                             .skip((query.pageNumber - 1) * query.pageSize * 1)
                             .limit(query.pageSize * 1)
                             .select(select);
-                        let records = yield DBModel.find().or(result).countDocuments();
+                        let records = yield DBModel.find().and(result).countDocuments();
                         const data = shared_utils_1.pagination(dbData, query.pageSize, query.pageNumber, records);
                         return {
                             status: 200,

@@ -71,7 +71,7 @@ function getTypes(rules) {
         return { [rules.field]: eval(data) };
     }
     else if (rules.option === "cn") {
-        const data = escapeSpecialCharacters(`${rules.data}`);
+        const data = eval(escapeSpecialCharacters(`${rules.data}`));
         return { [rules.field]: eval(data) };
     }
     else if (rules.option === "in" || rules.option === "nin") {

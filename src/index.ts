@@ -110,7 +110,7 @@ export default async function getResReq(
             .limit(query.pageSize * 1)
             .select(select);
 
-          let records = await DBModel.find().or(result).countDocuments();
+          let records = await DBModel.find().and(result).countDocuments();
 
           const data: Result = pagination(
             dbData,

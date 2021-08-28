@@ -50,16 +50,14 @@ function getTypesStructuredValue(
       return {
         status: 400,
         type: "error",
-        msg:
-          "range can only accept the following types string, number, float, boolean and date",
+        msg: "range can only accept the following types string, number, float, boolean and date",
       };
     }
   } else {
     return {
       status: 400,
       type: "error",
-      msg:
-        "You've constructed your query wrongly kindly consult the documentation",
+      msg: "You've constructed your query wrongly kindly consult the documentation",
     };
   }
 }
@@ -74,7 +72,7 @@ function getTypes(rules: Rules): Rule {
     const data = escapeSpecialCharacters(`${metaphone(rules.data)}`);
     return { [rules.field]: eval(data) };
   } else if (rules.option === "cn") {
-    const data = escapeSpecialCharacters(`${rules.data}`);
+    const data = eval(escapeSpecialCharacters(`${rules.data}`));
     return { [rules.field]: eval(data) };
   } else if (rules.option === "in" || rules.option === "nin") {
     return {
@@ -130,8 +128,7 @@ function getTypes(rules: Rules): Rule {
     return {
       status: 400,
       type: "error",
-      msg:
-        "You've constructed your query wrongly kindly consult the documentation",
+      msg: "You've constructed your query wrongly kindly consult the documentation",
     };
   }
 }
