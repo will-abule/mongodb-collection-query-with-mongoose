@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.query = void 0;
+const shared_utils_1 = require("./shared-utils");
 const metaphone = require("metaphone");
 function getOption(data) {
     return `$${data.option}`;
@@ -44,7 +45,7 @@ function getTypesStructuredValue(rules) {
             return eval(rules.data) ? true : false;
         }
         else if (rules.type === "date") {
-            return new Date(`${rules.data}`);
+            return shared_utils_1.formatDate(new Date(`${rules.data}`));
         }
         else {
             return {
@@ -67,8 +68,7 @@ function escapeSpecialCharacters(value) {
 }
 function getTypes(rules) {
     if (rules.field && rules.field === "sound") {
-        const data = escapeSpecialCharacters(`${metaphone(rules.data)}`);
-        return { [rules.field]: eval(data) };
+        return { [rules.field]: metaphone(rules.data) };
     }
     else if (rules.option === "cn") {
         const data = eval(escapeSpecialCharacters(`${rules.data}`));
@@ -117,7 +117,9 @@ function getTypes(rules) {
         }
         else if (rules.type === "date") {
             return {
-                [rules.field]: { [getOption(rules)]: new Date(`${rules.data}`) },
+                [rules.field]: {
+                    [getOption(rules)]: shared_utils_1.formatDate(new Date(`${rules.data}`)),
+                },
             };
         }
         else if (rules.type === "range") {

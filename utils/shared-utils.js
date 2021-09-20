@@ -1,6 +1,14 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sortType = exports.pagination = exports.checkSort = void 0;
+exports.sortType = exports.pagination = exports.checkSort = exports.formatDate = void 0;
+const moment_1 = __importDefault(require("moment"));
+const formatDate = (date = new Date()) => {
+    return `${moment_1.default(new Date(date)).format("YYYY-MM-DD HH:mm:ss")}`;
+};
+exports.formatDate = formatDate;
 function checkSort(sort) {
     if (sort.toLowerCase() === "asc") {
         return "asc";

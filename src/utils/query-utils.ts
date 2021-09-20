@@ -1,4 +1,5 @@
 import { Response, QueryInterface, Rule, Rules } from "./interfaces-utils";
+import { formatDate } from "./shared-utils";
 const metaphone = require("metaphone");
 
 function getOption(data: any): string {
@@ -45,7 +46,7 @@ function getTypesStructuredValue(
     } else if (rules.type === "boolean") {
       return eval(rules.data) ? true : false;
     } else if (rules.type === "date") {
-      return new Date(`${rules.data}`);
+      return formatDate(new Date(`${rules.data}`));
     } else {
       return {
         status: 400,
@@ -69,8 +70,7 @@ function escapeSpecialCharacters(value: string): string {
 
 function getTypes(rules: Rules): Rule {
   if (rules.field && rules.field === "sound") {
-    const data = escapeSpecialCharacters(`${metaphone(rules.data)}`);
-    return { [rules.field]: eval(data) };
+    return { [rules.field]: metaphone(rules.data) };
   } else if (rules.option === "cn") {
     const data = eval(escapeSpecialCharacters(`${rules.data}`));
     return { [rules.field]: eval(data) };
@@ -109,7 +109,9 @@ function getTypes(rules: Rules): Rule {
       };
     } else if (rules.type === "date") {
       return {
-        [rules.field]: { [getOption(rules)]: new Date(`${rules.data}`) },
+        [rules.field]: {
+          [getOption(rules)]: formatDate(new Date(`${rules.data}`)),
+        },
       };
     } else if (rules.type === "range") {
       const range1 = rules.data[0];
