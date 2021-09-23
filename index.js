@@ -31,6 +31,7 @@ function getResReq(query, DBModel, select) {
                                 msg: "Your searchFilter.rules was not found Kindly consult the documentation",
                             };
                         }
+                        console.log(result);
                         const _filters = filters_validation_utils_1.filters(query);
                         if (_filters)
                             return _filters;
@@ -64,6 +65,7 @@ function getResReq(query, DBModel, select) {
                                 type: "error",
                                 msg: "Your searchFilter.rules was not found Kindly consult the documentation",
                             };
+                        console.log(result);
                         const _filters = filters_validation_utils_1.filters(query);
                         if (_filters)
                             return _filters;
