@@ -47,7 +47,8 @@ function getResReq(query, DBModel, select) {
                             .sort([[query.sortName, sort]])
                             .skip((query.pageNumber - 1) * query.pageSize * 1)
                             .limit(query.pageSize * 1)
-                            .select(select);
+                            .select(select)
+                            .lean();
                         let records = yield DBModel.find().or(result).countDocuments();
                         const data = shared_utils_1.pagination(dbData, query.pageSize, query.pageNumber, records);
                         return {
@@ -80,7 +81,8 @@ function getResReq(query, DBModel, select) {
                             .sort([[query.sortName, sort]])
                             .skip((query.pageNumber - 1) * query.pageSize * 1)
                             .limit(query.pageSize * 1)
-                            .select(select);
+                            .select(select)
+                            .lean();
                         let records = yield DBModel.find().and(result).countDocuments();
                         const data = shared_utils_1.pagination(dbData, query.pageSize, query.pageNumber, records);
                         return {
@@ -114,7 +116,8 @@ function getResReq(query, DBModel, select) {
                     .sort([[query.sortName, sort]])
                     .skip((query.pageNumber - 1) * query.pageSize * 1)
                     .limit(query.pageSize * 1)
-                    .select(select);
+                    .select(select)
+                    .lean();
                 let records = yield DBModel.countDocuments();
                 const data = shared_utils_1.pagination(dbData, query.pageSize, query.pageNumber, records);
                 return {

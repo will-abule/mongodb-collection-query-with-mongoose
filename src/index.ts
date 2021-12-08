@@ -33,8 +33,7 @@ export default async function getResReq(
             return {
               status: 400,
               type: "error",
-              msg:
-                "Your searchFilter.rules was not found Kindly consult the documentation",
+              msg: "Your searchFilter.rules was not found Kindly consult the documentation",
             };
           }
 
@@ -58,7 +57,8 @@ export default async function getResReq(
             .sort([[query.sortName, sort]])
             .skip((query.pageNumber - 1) * query.pageSize * 1)
             .limit(query.pageSize * 1)
-            .select(select);
+            .select(select)
+            .lean();
 
           let records = await DBModel.find().or(result).countDocuments();
 
@@ -85,9 +85,9 @@ export default async function getResReq(
             return {
               status: 400,
               type: "error",
-              msg:
-                "Your searchFilter.rules was not found Kindly consult the documentation",
+              msg: "Your searchFilter.rules was not found Kindly consult the documentation",
             };
+
           const _filters = filters(query);
 
           if (_filters) return _filters;
@@ -108,7 +108,8 @@ export default async function getResReq(
             .sort([[query.sortName, sort]])
             .skip((query.pageNumber - 1) * query.pageSize * 1)
             .limit(query.pageSize * 1)
-            .select(select);
+            .select(select)
+            .lean();
 
           let records = await DBModel.find().and(result).countDocuments();
 
@@ -161,7 +162,8 @@ export default async function getResReq(
         .sort([[query.sortName, sort]])
         .skip((query.pageNumber - 1) * query.pageSize * 1)
         .limit(query.pageSize * 1)
-        .select(select);
+        .select(select)
+        .lean();
 
       let records = await DBModel.countDocuments();
 

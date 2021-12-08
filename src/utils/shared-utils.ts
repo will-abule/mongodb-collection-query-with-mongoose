@@ -1,6 +1,6 @@
 //@ts-check
 
-import { Document } from "mongoose";
+import { LeanDocument, Document } from "mongoose";
 import { Result } from "./interfaces-utils";
 import moment from "moment";
 
@@ -19,7 +19,7 @@ export function checkSort(sort: string) {
 }
 
 export function pagination(
-  db: Document[],
+  db: LeanDocument<Document>[],
   pageSize: number,
   pageNumber: number,
   records: number
